@@ -15,6 +15,10 @@ our $scenario = {
             code_template => 'state $data = "\0"; for(1..1000) { vec($data, 4, 1) = 1 }'
         },
         {
+            name => '1k-vec-data=1byte-set=3bit',
+            code_template => 'state $data = "\0"; for(1..1000) { vec($data, 4, 4) = 0b1011 }'
+        },
+        {
             name => '1k-bit_on-data=1byte-set=1bit',
             module => 'Bit::Manip',
             code_template => 'state $data = 0; for(1..1000) { $data = Bit::Manip::bit_on($data, 3) }'
@@ -36,13 +40,14 @@ Differences between C<vec()> and L<Bit::Manip> routines:
 
 =over
 
-=item * C<vec()> counts bit position from 1, while Bit::Manip from 0
+=item * C<vec()> counts bit position from left, while Bit::Manip from right
 
 =item * C<vec()> works with binary data, while Bit::Manip expects numbers
 
-Bit::Manip currently supports only 32-bit number while C<vec()> far more than
-that.
+=item * Bit::Manip currently supports only 32-bit number while C<vec()> far more than that
 
 =item * Bit::Manip provides convenience functions for toggling, masking, shifting, and bit counting
+
+=item * C<vec()> provides convenience when setting multiple bits in one go
 
 =back
